@@ -9,7 +9,7 @@ class ProjectsTest(TestCase):
 
     # Creating an instance of the Projects class for testing
     def setUp(self):
-        self.project = Projects('Django unchained','image/yes.jpg','A project beyond normal','http://unchained.django.com')
+        self.project = Projects('Django unchained','yes.jpg','A project beyond normal','http://unchained.django.com')
         self.project.save_project
     
     # Testing the instance created
