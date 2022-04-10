@@ -1,3 +1,4 @@
+from pyexpat import model
 from turtle import title
 from django.db import models
 from cloudinary.models import CloudinaryField
@@ -7,6 +8,7 @@ from django.forms import CharField
 
 # This is the Projects model
 class Projects(models.Model):
+    id = models.CharField(primary_key=True, max_length=20)
     title = models.CharField(max_length=30)
     image = CloudinaryField('image')
     projectdesc = models,CharField(max_length=150)
