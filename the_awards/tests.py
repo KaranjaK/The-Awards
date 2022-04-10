@@ -15,3 +15,9 @@ class ProjectsTest(TestCase):
     # Testing the instance created
     def test_instance(self):
         self.assertTrue(isinstance(self.project, Projects))
+
+    # Testing project save
+    def test_save_project(self):
+        self.project.save_project()
+        project = Projects.objects.all()
+        self.assertTrue(len(project)>0)
