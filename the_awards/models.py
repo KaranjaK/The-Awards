@@ -13,6 +13,8 @@ class Projects(models.Model):
     image = CloudinaryField('image')
     projectdesc = models,CharField(max_length=150)
     link = models.CharField(max_length=40)
+    ratings = models.CharField(max_length=30, default='0')
+    reviews = models.CharField(max_length=150, default='0')
 
     # It will create the Project model and convert its inputs into a String
     def __str__(self):
@@ -29,3 +31,11 @@ class Projects(models.Model):
     # This is for updating the project in the app
     def update_project(self):
         self.update()
+
+# User Profile Model
+class Profile(models.Model):
+    id = models.CharField(primary_key=True, max_length=20)
+    image = CloudinaryField('image')
+    bio = models.CharField(max_length=40)
+    projects = models.CharField(max_length=60)
+    contact = models.CharField(max_length=40)
