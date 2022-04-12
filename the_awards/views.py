@@ -30,7 +30,7 @@ def index(request):
         print(random_projects.photo)
     except Projects.DoesNotExist:
         projects = None
-    return render(request, 'index.html', {'projes': projects, 'form': form, 'random_projects': random_projects})
+    return render(request, 'index.html', {'projects': projects, 'form': form, 'random_projects': random_projects})
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
@@ -60,7 +60,7 @@ def signup(request):
             return redirect('index')
     else:
         form = SignupForm()
-    return render(request, 'registration/signup.html', {'form': form})
+    return render(request, 'authorization/signup.html', {'form': form})
 
 
 @login_required(login_url='login')
