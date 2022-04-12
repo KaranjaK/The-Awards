@@ -1,7 +1,5 @@
-from email.mime import image
-from turtle import title
 from django.test import TestCase
-from .models import Projects
+from .models import Projects, Profile, Rate
 
 # Create your tests here.
 # Testing for the project class
