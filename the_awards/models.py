@@ -4,14 +4,14 @@ from django.dispatch import receiver
 from django.forms import CharField
 import datetime as dt
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 
 # Create your models here.
 
 # User Profile Model
 class Profile(models.Model):
     id = models.CharField(primary_key=True, max_length=20)
-    owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = CloudinaryField('image')
     bio = models.CharField(max_length=40)
     projects = models.CharField(max_length=60)
@@ -19,24 +19,29 @@ class Profile(models.Model):
 
     # This is a method to convert the models input into strings
     def __str__(self):
-        return f'{self.owner.username} Profile'
+        return f'{self.user.username} Profile'
 
     # Uses post_save to create a profile
     @receiver(post_save, sender=User)
     def create_profile(sender, instance, created, **kwargs):
         if created:
-            Profile.objects.create(owner=instance)
+            Profile.objects.create(user=instance)
     
     # Uses post_save to save the user profile created above
     @receiver(post_save, sender=User)
     def save_profile(sender, instance, **kwargs):
         instance.profile.save()
 
+    # Uses post_delete to delete the user profile created above
+    @receiver(post_delete, sender=User)
+    def delete_profile(sender, instance, **kwargs):
+        instance.profile.delete()
+
 # This is the Projects model
 class Projects(models.Model):
     id = models.CharField(primary_key=True, max_length=20)
     title = models.CharField(max_length=300)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects')
     image = CloudinaryField('image')
     projectdesc = models,CharField(max_length=300)
     link = models.CharField(max_length=300)
@@ -86,7 +91,7 @@ class Rate(models.Model):
     design_average = models.FloatField(default=0, blank=True)
     usability_average = models.FloatField(default=0, blank=True)
     content_average = models.FloatField(default=0, blank=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rater')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rater')
     project = models.ForeignKey(Projects, on_delete=models.CASCADE, related_name='ratings')
 
     # It will create the Project model and convert its inputs into a String
