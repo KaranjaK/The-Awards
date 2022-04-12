@@ -1,3 +1,4 @@
+from secrets import choice
 from django.db import models
 from cloudinary.models import CloudinaryField
 from django.dispatch import receiver
@@ -63,3 +64,42 @@ class Projects(models.Model):
     @classmethod
     def all_projects(cls):
         return cls.objects.all()
+
+# This is the ratings/review model
+class Rate(models.Model):
+    id = models.CharField(primary_key=True, max_length=20)
+    rating = (
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+        (6, '6'),
+        (7, '7'),
+        (8, '8'),
+        (9, '9'),
+        (10, '10'),
+    )
+    design = models.IntegerField(choices=rating, blank=True)
+    usability = models.IntegerField(choices=rating, blank=True)
+    content = models.IntegerField(choices=rating, blank=True)
+    score = models.FloatField(default=0, blank=True)
+    design_average = models.FloatField(default=0, blank=True)
+    usability_average = models.FloatField(default=0, blank=True)
+    content_average = models.FloatField(default=0, blank=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rater')
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE, related_name='ratings')
+
+    # It will create the Project model and convert its inputs into a String
+    def ___str__(self):
+        return f'{self.rating} Rate'
+
+    # Saving the rating
+    def save_rating(self):
+        return self.save()
+    
+    # Class method to get ratings
+    @classmethod
+    def get_rating(cls, id):
+        rating = Rate.objects.filter(post_id=id).all()
+        return rating
