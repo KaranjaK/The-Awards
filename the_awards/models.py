@@ -1,4 +1,3 @@
-from secrets import choice
 from django.db import models
 from cloudinary.models import CloudinaryField
 from django.dispatch import receiver
@@ -29,7 +28,7 @@ class Profile(models.Model):
             Profile.objects.create(owner=instance)
     
     # Uses post_save to save the user profile created above
-    @receiver(post_save, sende=User)
+    @receiver(post_save, sender=User)
     def save_profile(sender, instance, **kwargs):
         instance.profile.save()
 
