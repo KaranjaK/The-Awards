@@ -9,7 +9,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ['id','user', 'image', 'bio', 'projects', 'contact']
 
 
-class PostSerializer(serializers.ModelSerializer):
+class ProjectsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Projects
         fields = ['id', 'title', 'title', 'user', 'image', 'projectdesc', 'link', 'date']
@@ -17,7 +17,7 @@ class PostSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(read_only=True)
-    posts = PostSerializer(many=True, read_only=True)
+    projects = ProjectsSerializer(many=True, read_only=True)
 
     class Meta:
         model = User

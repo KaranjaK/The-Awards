@@ -43,7 +43,7 @@ class Projects(models.Model):
     title = models.CharField(max_length=300)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects')
     image = CloudinaryField('image')
-    projectdesc = models,CharField(max_length=300)
+    project_description = models.CharField(max_length=300, null=True)
     link = models.CharField(max_length=300)
     date = models.DateField(auto_now_add=True, blank=True)
 

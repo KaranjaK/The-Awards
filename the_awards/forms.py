@@ -1,7 +1,8 @@
+from email.mime import image
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Projects, Profile, Rating
+from .models import Projects, Profile, Rate
 from cloudinary.models import CloudinaryField
 
 
@@ -14,11 +15,11 @@ class SignupForm(UserCreationForm):
 
 
 class ProjectsForm(forms.ModelForm):
-    photo = CloudinaryField(label='')
+    image = CloudinaryField('image')
 
     class Meta:
         model = Projects
-        fields = ('image', 'title', 'url', 'projectdesc',)
+        fields = ('image', 'title', 'link', 'project_description',)
 
 
 class UpdateUserForm(forms.ModelForm):
@@ -35,7 +36,7 @@ class UpdateUserProfileForm(forms.ModelForm):
         fields = ['image', 'bio', 'contact']
 
 
-class RatingsForm(forms.ModelForm):
+class RateForm(forms.ModelForm):
     class Meta:
-        model = Rating
+        model = Rate
         fields = ['design', 'usability', 'content']

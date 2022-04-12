@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SignupForm, ProjectsForm, UpdateUserForm, UpdateUserProfileForm, RatingsForm
+from .forms import SignupForm, ProjectsForm, UpdateUserForm, UpdateUserProfileForm, RateForm
 from rest_framework import viewsets
 from django.contrib.auth.decorators import login_required
-from .models import Profile, Projects, Rating
+from .models import Profile, Projects, Rate
 from .serializers import ProfileSerializer, UserSerializer, ProjectsSerializer
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
@@ -11,7 +11,7 @@ import random
 
 # Create your views here.
 
-# The default/ landing page
+# The default landing page
 def index(request):
     if request.method == "POST":
         form = ProjectsForm(request.POST)
@@ -23,11 +23,10 @@ def index(request):
         form = ProjectsForm()
 
     try:
-        projectss = Projects.objects.all()
-        projectss = projectss[::-1]
+        projects = Projects.objects.all()
+        projects = projects[::-1]
         a_projects = random.randint(0, len(projects)-1)
         random_projects = projects[a_projects]
-        print(random_projects.photo)
     except Projects.DoesNotExist:
         projects = None
     return render(request, 'index.html', {'projects': projects, 'form': form, 'random_projects': random_projects})
@@ -101,20 +100,20 @@ def edit_profile(request, username):
 @login_required(login_url='login')
 def project(request, projects):
     projects = Projects.objects.get(title=projects)
-    ratings = Rating.objects.filter(user=request.user, projects=projects).first()
+    ratings = Rate.objects.filter(user=request.user, projects=projects).first()
     rating_status = None
     if ratings is None:
         rating_status = False
     else:
         rating_status = True
     if request.method == 'POST':
-        form = RatingsForm(request.POST)
+        form = RateForm(request.POST)
         if form.is_valid():
             rate = form.save(commit=False)
             rate.user = request.user
             rate.projects = projects
             rate.save()
-            projects_ratings = Rating.objects.filter(projects=projects)
+            projects_ratings = Rate.objects.filter(projects=projects)
 
             design_ratings = [d.design for d in projects_ratings]
             design_average = sum(design_ratings) / len(design_ratings)
@@ -134,7 +133,7 @@ def project(request, projects):
             rate.save()
             return HttpResponseRedirect(request.path_info)
     else:
-        form = RatingsForm()
+        form = RateForm()
     params = {
         'projects': projects,
         'rating_form': form,
