@@ -35,11 +35,11 @@ class Profile(models.Model):
 # This is the Projects model
 class Projects(models.Model):
     id = models.CharField(primary_key=True, max_length=20)
-    title = models.CharField(max_length=30)
+    title = models.CharField(max_length=300)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects')
     image = CloudinaryField('image')
     projectdesc = models,CharField(max_length=300)
-    link = models.CharField(max_length=40)
+    link = models.CharField(max_length=300)
     date = models.DateField(auto_now_add=True, blank=True)
 
     # It will create the Project model and convert its inputs into a String

@@ -1,5 +1,7 @@
+from os import link
+from turtle import title
 from django.test import TestCase
-from .models import Projects, Profile, Rate
+from .models import Projects, Profile, Rate, User
 
 # Create your tests here.
 # Testing for the project class
@@ -7,8 +9,8 @@ class ProjectsTest(TestCase):
 
     # Creating an instance of the Projects class for testing
     def setUp(self):
-        self.project = Projects('Django unchained','KK','yes.jpg','A project beyond normal','http://unchained.django.com','10/04/2021')
-        self.project.save_project
+        self.user = User(id=1   , username='KK')
+        self.project = Projects(id=1,title='Django Unchained',owner=self.user,image='https://www.shutterstock.com/image-photo/picture-beautiful-view',link='https://project.url')
     
     # Testing the instance created
     def test_instance(self):
