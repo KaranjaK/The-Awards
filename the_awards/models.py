@@ -105,5 +105,5 @@ class Rate(models.Model):
     # Class method to get ratings
     @classmethod
     def get_rating(cls, id):
-        rating = Rate.objects.filter(post_id=id).all()
+        rating = Rate.objects.filter(project_id=id).all()
         return rating
