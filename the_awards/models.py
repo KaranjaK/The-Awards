@@ -17,14 +17,17 @@ class Profile(models.Model):
     projects = models.CharField(max_length=60)
     contact = models.EmailField(max_length=150, blank=True)
 
+    # This is a method to convert the models input into strings
     def __str__(self):
         return f'{self.owner.username} Profile'
 
+    # Uses post_save to create a profile
     @receiver(post_save, sender=User)
     def create_profile(sender, instance, created, **kwargs):
         if created:
             Profile.objects.create(owner=instance)
     
+    # Uses post_save to save the user profile created above
     @receiver(post_save, sende=User)
     def save_profile(sender, instance, **kwargs):
         instance.profile.save()
@@ -41,7 +44,7 @@ class Projects(models.Model):
 
     # It will create the Project model and convert its inputs into a String
     def __str__(self):
-        return self.name
+        return f'{self.title} Projects'
 
     # This is for creating a project into the app
     def save_project(self):
@@ -51,6 +54,12 @@ class Projects(models.Model):
     def delete_project(self):
         self.delete()
     
-    # This is for updating the project in the app
-    def update_project(self):
-        self.update()
+    # Class method to conduct searches
+    @classmethod
+    def search_project(cls, title):
+        return cls.objects.filter(title__icontains=title).all()
+
+    # Class method to access all projects in the db
+    @classmethod
+    def all_projects(cls):
+        return cls.objects.all()
