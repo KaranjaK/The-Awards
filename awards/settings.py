@@ -134,9 +134,11 @@ WSGI_APPLICATION = 'awards.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'awards',
-        'USER': 'kk',
-        'PASSWORD': 'admin101',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': '',
     }
 }
 
@@ -173,12 +175,14 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Cloudinary Configurations 
+# These are cloudinary Configurations 
 cloudinary.config( 
-  cloud_name = "diib1bge2", 
-  api_key = "794333435498654", 
-  api_secret = "qeoOzKExZp9rsoHQF1Wm0ui2_FA" 
+  cloud_name = config('CLOUD_NAME'), 
+  api_key = config('API_KEY'), 
+  api_secret = config('API_SECRET'),
+  secure = config('SECURE')
 )
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
