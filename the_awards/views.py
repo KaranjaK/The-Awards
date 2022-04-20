@@ -59,7 +59,7 @@ def signup(request):
             return redirect('index')
     else:
         form = SignupForm()
-    return render(request, 'authorization/signup.html', {'form': form})
+    return render(request, 'registration/signup.html', {'form': form})
 
 
 @login_required(login_url='login')
@@ -140,7 +140,7 @@ def project(request, projects):
         'rating_status': rating_status
 
     }
-    return render(request, 'project.html', params)
+    return render(request, 'projects.html', params)
 
 
 def search_project(request):
