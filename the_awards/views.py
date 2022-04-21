@@ -147,7 +147,6 @@ def search_project(request):
     if request.method == 'GET':
         title = request.GET.get("title")
         results = Projects.objects.filter(title__icontains=title).all()
-        print(results)
         message = f'name'
         params = {
             'results': results,

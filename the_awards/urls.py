@@ -13,7 +13,7 @@ router.register('profile', views.ProfileViewSet)
 urlpatterns=[
     url(r'^$', views.index, name='index'),
     url(r'^signup/', views.signup, name='signup'),
-    url(r'^account/', include('django.contrib.auth.urls')),
+    url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^api/', include(router.urls)),
     url(r'^(?P<username>\w+)/profile$', views.user_profile, name='userprofile'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
